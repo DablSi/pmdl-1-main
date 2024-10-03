@@ -6,12 +6,12 @@ This repository contains the solution for an assignment on the course of Practic
 
 ## Model
 
-For this solution, I use the `distil-bert` model from HuggingFace for Named Entity Recognition (NER). The backend uses model caching, optimized Docker configuration, and health checks. The frontend inputs text from the user and annotates different entities in it. The possible entity types are:
+For this solution, I use the `distil-bert` model from HuggingFace for Named Entity Recognition (NER). NER is a personally interesting field of research. I chose it for this assignment to get more practice for the course project. The possible entity types are:
 
 - **MISC**: Miscellaneous entity
 - **PER**: Person’s name
 - **ORG**: Organization
-- **B-LOC**: Location
+- **LOC**: Location
 
 ## Repository Structure
 
