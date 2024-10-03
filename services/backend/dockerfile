@@ -33,6 +33,5 @@ WORKDIR /app
 RUN --mount=type=cache,target=/root/.cache \
     poetry install --without=dev
 
-RUN poetry run python3 -m nltk.downloader wordnet omw-1.4
 
 CMD ["poetry", "run", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
