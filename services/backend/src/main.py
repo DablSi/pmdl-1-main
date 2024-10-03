@@ -25,16 +25,8 @@ class InferenceResponse(BaseModel):
     tokens: list[Token]
 
 
-class ModelMock:
-    def predict(self, text):
-        return [
-            ["Elon", "Musk", "created", "SpaceX"],
-            ["pers-b", "pers-i", "o", "comp-b"],
-        ]
-
-
-tokenizer = AutoTokenizer.from_pretrained("dslim/bert-base-NER")
-model = AutoModelForTokenClassification.from_pretrained("dslim/bert-base-NER")
+tokenizer = AutoTokenizer.from_pretrained("dslim/bert-base-NER", cache_dir="cache")
+model = AutoModelForTokenClassification.from_pretrained("dslim/bert-base-NER", cache_dir="cache")
 
 nlp = pipeline("ner", model=model, tokenizer=tokenizer)
 
@@ -44,4 +36,10 @@ async def inference(request: InferenceRequest):
     for i in response:
         i.pop('score')
     
-    return Token(**i)
+    return [Token(**i) for i in response]
+
+
+@app.get("/health")
+async def health():
+    return JSONResponse({"status": "ok"})
+

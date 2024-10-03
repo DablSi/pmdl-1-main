@@ -1,0 +1,30 @@
+version: '3'
+volumes:
+  model-cache: {}
+services:
+  pmldl-backend:
+    build:
+      context: ./services/backend
+      dockerfile: dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - model-cache:/app/cache
+    healthcheck:
+      test: curl --fail http://localhost:8000/health || exit 1
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+  pmldl-frontend:
+    build:
+      context: ./services/frontend
+      dockerfile: dockerfile
+    environment:
+      - APU_URL=http://pmldl-backend:8000
+    ports:
+      - 8501:8501
+    depends_on:
+      pmldl-backend:
+        condition: service_healthy
+
